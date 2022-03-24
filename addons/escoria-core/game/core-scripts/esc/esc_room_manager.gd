@@ -7,6 +7,9 @@ class_name ESCRoomManager
 # Contains the global_id of previous room
 const GLOBAL_LAST_SCENE = "ESC_LAST_SCENE"
 
+# Contains the global_id of the room currently being loaded.
+const GLOBAL_LOADING_SCENE = "ESC_LOADING_SCENE"
+
 # If true, ESC_LAST_SCENE is not considered for automatic transitions
 const GLOBAL_FORCE_LAST_SCENE_NULL = "FORCE_LAST_SCENE_NULL"
 
@@ -154,6 +157,12 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 				and escoria.game_scene.get_parent() != room_scene:
 			var game_parent = escoria.game_scene.get_parent()
 			game_parent.remove_child(escoria.game_scene)
+		
+		escoria.globals_manager.set_global(
+			escoria.room_manager.GLOBAL_LOADING_SCENE,
+			room_scene.global_id,
+			true
+		)
 
 		room_scene.add_child(escoria.game_scene)
 		room_scene.move_child(escoria.game_scene, 0)

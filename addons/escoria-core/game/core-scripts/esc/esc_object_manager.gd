@@ -19,6 +19,13 @@ const RESERVED_OBJECTS = [
 # The hash of registered objects (the global id is the key)
 var objects: Dictionary = {}
 
+# States of objects
+var objects_states: Dictionary = {}
+
+# List of objects for each room
+# Key is room_id, value is an Array of objects_ids
+var room_objects: Dictionary = {}
+
 
 # Make active objects visible
 func _process(_delta):
@@ -46,7 +53,6 @@ func register_object(object: ESCObject, force: bool = false) -> void:
 			]
 		)
 
-
 	if objects.has(object.global_id) and not force:
 		escoria.logger.report_errors(
 			"ESCObjectManager.register_object: Object already registered",
@@ -56,6 +62,18 @@ func register_object(object: ESCObject, force: bool = false) -> void:
 			]
 		)
 	else:
+		var loading_scene = escoria.globals_manager.get_global(
+			escoria.room_manager.GLOBAL_LOADING_SCENE
+		)
+		if loading_scene != null:
+			if not room_objects.has(loading_scene):
+				room_objects[loading_scene] = []
+			if not room_objects[loading_scene].has(object.global_id):
+				room_objects[loading_scene].append(object.global_id)
+			elif objects_states.has(object.global_id):
+				# Object is already known, set its state to last known state
+				object.set_state(objects_states[object.global_id])
+		
 		if not object.node.is_connected(
 			"tree_exited",
 			self,
@@ -78,6 +96,8 @@ func register_object(object: ESCObject, force: bool = false) -> void:
 			object.events = script.events
 
 		objects[object.global_id] = object
+		if object.state != ESCObject.STATE_DEFAULT:
+			objects_states[object.global_id] = object.state
 
 
 # Check whether an object was registered
@@ -154,3 +174,4 @@ func get_start_location() -> ESCLocation:
 			]
 		)
 	return null
+
