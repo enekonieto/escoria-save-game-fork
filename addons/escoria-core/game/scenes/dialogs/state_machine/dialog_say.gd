@@ -5,11 +5,7 @@ class_name DialogSay
 signal dialog_manager_set(dialog_manager)
 
 
-# A regular expression that separates the translation key from the text
-const KEYTEXT_REGEX = "^((?<key>[^:]+):)?\"(?<text>.+)\""
-
-
-# Reference to the currently playing dialog manager
+# Reference to the currently playing dialog manager 
 var _dialog_manager: ESCDialogManager = null
 
 # Character that is talking
@@ -18,26 +14,22 @@ var _character: String
 # UI to use for the dialog
 var _type: String
 
+# Translation key
+var _key: String = ""
+
 # Text to say
 var _text: String
-
-# Regular expression object for the separation of key and text
-var _keytext_regex: RegEx = RegEx.new()
 
 var _ready_to_say: bool
 
 var _stop_talking_animation_on_option: String
 
 
-# Constructor
-func _init() -> void:
-	_keytext_regex.compile(KEYTEXT_REGEX)
-
-
-func initialize(character: String, type: String, text: String) -> void:
+func initialize(character: String, type: String, key: String, text: String) -> void:
 	_character = character
 	_type = type
 	_text = text
+	_key = key
 	_stop_talking_animation_on_option = \
 		ESCProjectSettingsManager.get_setting(SimpleDialogPlugin.STOP_TALKING_ANIMATION_ON)
 
@@ -103,25 +95,13 @@ func enter():
 	if not _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
 		_dialog_manager.connect("say_visible", self, "_on_say_visible", [], CONNECT_ONESHOT)
 
-	var matches = _keytext_regex.search(_text)
-
-	if not matches:
-		escoria.logger.error(
-			self,
-			"Unexpected text encountered: %s." % _text
-		)
-
-	var key = matches.get_string("key")
-
-	if matches.get_string("key") != "":
-		var _speech_resource = _get_voice_file(
-			matches.get_string("key")
-		)
+	if not _key.empty():
+		var _speech_resource = _get_voice_file(_key)
 
 		if _speech_resource == "":
 			escoria.logger.warn(
 				self,
-				"Unable to find voice file with key '%s'." % matches.get_string("key")
+				"Unable to find voice file with key '%s'." % _key
 			)
 		else:
 			(
@@ -135,20 +115,17 @@ func enter():
 					 as ESCSpeechPlayer
 				).stream.connect("finished", self, "_on_audio_finished", [], CONNECT_ONESHOT)
 
-		var translated_text: String = tr(matches.get_string("key"))
+		var translated_text: String = tr(_key)
 
 		# Only update the text if the translated text was found; otherwise, raise
 		# a warning and use the original, untranslated text.
-		if translated_text == matches.get_string("key"):
+		if translated_text == _key:
 			escoria.logger.warn(
 				self,
-				"Unable to find translation key '%s'. Using untranslated text." % matches.get_string("key")
+				"Unable to find translation key '%s'. Using untranslated text." % _key
 			)
-			_text = matches.get_string("text")
 		else:
 			_text = translated_text
-	else:
-		_text = matches.get_string("text")
 
 	_ready_to_say = true
 

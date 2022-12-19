@@ -249,6 +249,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/resources/esc_directionangle.gd"
 }, {
+"base": "Object",
+"class": "ESCEnvironment",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_environment.gd"
+}, {
 "base": "ESCStatement",
 "class": "ESCEvent",
 "language": "GDScript",
@@ -284,11 +289,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_globals_manager.gd"
 }, {
-"base": "ESCGrammarStmt",
-"class": "ESCGrammarBlock",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_grammar_block.gd"
-}, {
 "base": "Reference",
 "class": "ESCGrammarExpr",
 "language": "GDScript",
@@ -318,6 +318,11 @@ _global_script_classes=[ {
 "class": "ESCInputsManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/esc_inputs_manager.gd"
+}, {
+"base": "Reference",
+"class": "ESCInterpreter",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd"
 }, {
 "base": "Control",
 "class": "ESCInventory",
@@ -410,6 +415,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/esc_project_settings_manager.gd"
 }, {
 "base": "Reference",
+"class": "ESCResolver",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_resolver.gd"
+}, {
+"base": "Reference",
 "class": "ESCResourceCache",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_resource_cache.gd"
@@ -468,6 +478,11 @@ _global_script_classes=[ {
 "class": "ESCScript",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_script.gd"
+}, {
+"base": "Reference",
+"class": "ESCScriptBuilder",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_script_builder.gd"
 }, {
 "base": "Reference",
 "class": "ESCSettingsManager",
@@ -793,6 +808,7 @@ _global_script_class_icons={
 "ESCDialogPlayer": "",
 "ESCDialogSimple": "",
 "ESCDirectionAngle": "",
+"ESCEnvironment": "",
 "ESCEvent": "",
 "ESCEventManager": "",
 "ESCExecution": "",
@@ -800,13 +816,13 @@ _global_script_class_icons={
 "ESCExprVisitor": "",
 "ESCGame": "",
 "ESCGlobalsManager": "",
-"ESCGrammarBlock": "",
 "ESCGrammarExpr": "",
 "ESCGrammarExprs": "",
 "ESCGrammarStmt": "",
 "ESCGrammarStmts": "",
 "ESCGroup": "",
 "ESCInputsManager": "",
+"ESCInterpreter": "",
 "ESCInventory": "",
 "ESCInventoryButton": "",
 "ESCInventoryContainer": "",
@@ -825,6 +841,7 @@ _global_script_class_icons={
 "ESCParser": "",
 "ESCPlayer": "res://addons/escoria-core/design/esc_player.svg",
 "ESCProjectSettingsManager": "",
+"ESCResolver": "",
 "ESCResourceCache": "",
 "ESCResourceDescriptor": "",
 "ESCRoom": "res://addons/escoria-core/design/esc_room.svg",
@@ -837,6 +854,7 @@ _global_script_class_icons={
 "ESCScanner": "",
 "ESCScheduledEvent": "",
 "ESCScript": "",
+"ESCScriptBuilder": "",
 "ESCSettingsManager": "",
 "ESCSoundPlayer": "",
 "ESCSpeechPlayer": "",
@@ -914,8 +932,8 @@ escoria="*res://addons/escoria-core/game/esc_autoload.gd"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
+window/size/width=1280
+window/size/height=900
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
@@ -925,7 +943,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg" )
 
 [escoria]
 
@@ -948,7 +966,7 @@ debug/crash_message="We're sorry, but the game crashed. Please send us the follo
 %s"
 debug/enable_room_selector=true
 debug/room_selector_room_dir="res://game/rooms"
-ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
+ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 ui/inventory_items_path="res://game/items/inventory"
 ui/default_transition="instant"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]

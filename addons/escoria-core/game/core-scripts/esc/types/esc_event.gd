@@ -107,3 +107,6 @@ func run() -> int:
 	)
 	return .run()
 
+
+func get_event_name() -> String:
+	return name

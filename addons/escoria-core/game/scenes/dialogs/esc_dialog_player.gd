@@ -66,8 +66,8 @@ func _add_states_to_machine() -> void:
 # - character: Character that is talking
 # - type: UI to use for the dialog
 # - text: Text to say
-func say(character: String, type: String, text: String) -> void:
-	states_map["say"].initialize(character, type, text)
+func say(character: String, type: String, key: String, text: String) -> void:
+	states_map["say"].initialize(character, type, key, text)
 	_change_state("say")
 
 
