@@ -200,6 +200,7 @@ esc_script = "res://game/rooms/room02/esc/right_platform.esc"
 interaction_direction = 3
 tooltip_name = "Right platform"
 default_action = "look"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -218,6 +219,7 @@ esc_script = "res://game/rooms/room02/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Right exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -236,6 +238,7 @@ esc_script = "res://game/rooms/room02/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -327,6 +330,7 @@ global_id = "r2_button"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 tooltip_name = "button"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 0.196078, 1, 0, 1 )
 animations = null
 
@@ -347,6 +351,7 @@ global_id = "r2_button_right"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 tooltip_name = "button"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 0.196078, 1, 0, 1 )
 animations = null
 
@@ -364,6 +369,7 @@ script = ExtResource( 8 )
 pause_mode = 1
 script = ExtResource( 7 )
 global_id = "r2_bridge"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
