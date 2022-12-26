@@ -159,6 +159,7 @@ __meta__ = {
 }
 global_id = "r3_right_platform"
 esc_script = "res://game/rooms/room03/esc/right_platform.esc"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -187,6 +188,7 @@ esc_script = "res://game/rooms/room03/esc/right_exit.esc"
 is_exit = true
 is_interactive = false
 tooltip_name = "Exit"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -211,6 +213,7 @@ global_id = "r3_l_exit"
 esc_script = "res://game/rooms/room03/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -232,6 +235,7 @@ pause_mode = 1
 script = ExtResource( 5 )
 global_id = "r3_bridge"
 esc_script = "res://game/rooms/room03/esc/room03_bridge.esc"
+combine_when_selected_action_is_in = [  ]
 inventory_texture = ExtResource( 10 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
@@ -300,6 +304,7 @@ global_id = "r3_button"
 esc_script = "res://game/rooms/room03/esc/button.esc"
 tooltip_name = "Button"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
