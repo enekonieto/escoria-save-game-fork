@@ -34,6 +34,12 @@ func has(key: String) -> bool:
 	return _globals.has(key)
 
 
+# Clear all globals.
+func clear():
+	_globals.clear()
+	escoria.inventory.clear()
+
+
 # Registers a global as being reserved and initializes it.
 #
 # #### Parameters

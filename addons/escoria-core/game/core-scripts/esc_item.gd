@@ -207,7 +207,6 @@ func _ready():
 
 		if is_movable:
 			_movable = ESCMovable.new()
-
 			add_child(_movable)
 
 		if not escoria.event_manager.is_connected(
@@ -231,6 +230,17 @@ func _ready():
 		)
 
 		terrain = escoria.room_terrain
+		
+		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
+				and get_animation_player() != null:
+			escoria.object_manager.get_object(global_id) \
+					.set_state(get_animation_player().get_animation())
+			if is_movable:
+				escoria.object_manager.get_object(global_id).node \
+						._movable.last_dir = animations.get_direction_id_from_animation_name(
+							get_animation_player().get_animation()
+						)
+					
 
 		if !is_trigger:
 			if not self.is_connected(
@@ -716,6 +726,22 @@ func set_angle(deg: int, wait: float = 0.0):
 		)
 
 
+# Set the direction id
+#
+# #### Parameters
+#
+# - direction_id: The direction id
+# - wait: Wait this amount of seconds until continuing with turning around
+func set_direction(direction_id: int, wait: float = 0.0):
+	if is_movable:
+		_movable.set_direction(direction_id, wait)
+	else:
+		escoria.logger.warn(
+			self,
+			"Node %s cannot use \"set_direction\". Its \"is_movable\" parameter is false." % self
+		)
+
+
 # Turn to face another object
 #
 # #### Parameters
@@ -926,3 +952,7 @@ func _get_identifier_as_key_value() -> String:
 # Returns true if the player is currently moving, false otherwise
 func is_moving() -> bool:
 	return _movable.task != ESCMovable.MovableTask.NONE if is_movable else false
+
+
+func get_directions_quantity() -> int:
+	return animations.dir_angles.size()

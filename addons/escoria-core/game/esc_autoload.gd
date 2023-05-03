@@ -107,6 +107,9 @@ var is_direct_room_run: bool = false
 # Whether we're quitting the game
 var is_quitting: bool = false
 
+# Whether we're creating a new game
+var creating_new_game: bool = false
+
 
 # The game resolution
 onready var game_size = get_viewport().size

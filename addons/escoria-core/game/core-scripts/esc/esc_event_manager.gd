@@ -241,8 +241,9 @@ func queue_event(event: ESCEvent, force: bool = false) -> void:
 # - event: Event to run
 # - timeout: Number of seconds to wait before adding the event to the
 #   front queue
-func schedule_event(event: ESCEvent, timeout: float) -> void:
-	scheduled_events.append(ESCScheduledEvent.new(event, timeout))
+# - object: Target object
+func schedule_event(event: ESCEvent, timeout: float, object: String) -> void:
+	scheduled_events.append(ESCScheduledEvent.new(event, timeout, object))
 
 
 # Queue the run of an event in a background channel
@@ -366,7 +367,7 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 	# If we're changing scenes, interrupt any (other) running events and purge
 	# all event queues.
 	if _changing_scene:
-		interrupt([EVENT_INIT, EVENT_EXIT_SCENE, _change_scene.get_command_name()])
+		interrupt([EVENT_INIT, EVENT_EXIT_SCENE, EVENT_LOAD, _change_scene.get_command_name()])
 
 
 # The event finished running
@@ -377,7 +378,11 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 #   that just completed; this is useful for interrupted or failed statements especially
 # - return_code: Return code of the finished event
 # - channel_name: Name of the channel that the event came from
-func _on_event_finished(finished_event: ESCStatement, finished_statement: ESCStatement, return_code: int, channel_name: String) -> void:
+func _on_event_finished(
+		finished_event: ESCStatement, 
+		finished_statement: ESCStatement, 
+		return_code: int, 
+		channel_name: String = CHANNEL_FRONT) -> void:
 	var event = _running_events[channel_name]
 	if not event:
 		escoria.logger.warn(
@@ -423,6 +428,10 @@ func _on_event_finished(finished_event: ESCStatement, finished_statement: ESCSta
 			return_code,
 			event.name
 		)
+		if finished_event.name == EVENT_LOAD:
+			escoria.save_manager.is_loading_game = false
+		if finished_event.name == EVENT_NEW_GAME:
+			escoria.creating_new_game = false
 	else:
 		emit_signal(
 			"background_event_finished",
@@ -476,3 +485,31 @@ func _generate_statement_error_warning(statement: ESCStatement, event_name: Stri
 		self,
 		warning_string
 	)
+
+
+# Save the running event in the savegame, if any.
+#
+# #### Parameters
+# - p_savegame: ESCSaveGame resource that holds all data of the save
+func save_game(p_savegame: ESCSaveGame) -> void:
+	var running_event: ESCEvent = get_running_event(CHANNEL_FRONT)
+	if running_event != null:
+		var running_event_data: Dictionary = {
+			"name": running_event.name,
+			"flags": running_event.flags,
+			"source": running_event.source,
+			"id_statement_continue": running_event.statements.find(running_event.current_statement)
+		}
+		p_savegame.events.running_event_data = running_event_data
+	
+	var sched_events_array: Array = []
+	for sched_event in scheduled_events:
+		var event_data: Dictionary = {
+			"timeout": sched_event.timeout,
+			"event_name": sched_event.event.name,
+			"object": sched_event.object,
+			"source": sched_event.event.source
+		}
+		sched_events_array.push_back(event_data)
+	p_savegame.events.scheduled_events = sched_events_array
+	

@@ -147,13 +147,14 @@ func _input(event: InputEvent):
 # - script: ESC script containing the event to run. The script must have been
 # loaded.
 # - event_name: Name of the event to run
-func run_event_from_script(script: ESCScript, event_name: String):
+func run_event_from_script(script: ESCScript, event_name: String, from_statement_id: int = 0):
 	if script == null:
 		escoria.logger.error(
 			self,
 			"Requested action %s on unloaded script %s." % [event_name, script] +
 			"Please load the ESC script using esc_compiler.load_esc_file()."
 		)
+	script.events[event_name].from_statement_id = from_statement_id
 	escoria.event_manager.queue_event(script.events[event_name])
 	var rc = yield(escoria.event_manager, "event_finished")
 	while rc[1] != event_name:
@@ -170,8 +171,16 @@ func run_event_from_script(script: ESCScript, event_name: String):
 # Called from escoria autoload to start a new game.
 func new_game():
 	escoria.game_scene.escoria_show_ui()
+	escoria.globals_manager.clear()
+	escoria.main.clear_previous_scene()
+	escoria.creating_new_game = true
+	escoria.globals_manager.set_global(
+			escoria.room_manager.GLOBAL_FORCE_LAST_SCENE_NULL,
+			true,
+			true
+		)
+	escoria.event_manager.interrupt()
 	run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
-
 
 # Function called to quit the game.
 func quit():

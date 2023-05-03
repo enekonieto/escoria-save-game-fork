@@ -19,6 +19,15 @@ var source: String = ""
 # Indicates whether this event was interrupted.
 var _is_interrupted: bool = false
 
+# Indictates whether this statement was completed
+var is_completed: bool = false
+
+# Currently running statement
+var current_statement: ESCStatement = null
+
+# Id of the statement to start from. By default, equal to 0.
+var from_statement_id = 0
+
 
 # Check whether the statement should be run based on its conditions
 func is_valid() -> bool:
@@ -31,9 +40,13 @@ func is_valid() -> bool:
 # Execute this statement and return its return code
 func run() -> int:
 	var final_rc = ESCExecution.RC_OK
-	var current_statement: ESCStatement
-
+	
+	var statement_id = 0
 	for statement in statements:
+		if statement_id < from_statement_id:
+			continue
+		
+		statement_id = statement_id + 1
 		current_statement = statement
 
 		if _is_interrupted:
@@ -55,8 +68,11 @@ func run() -> int:
 			elif rc != ESCExecution.RC_OK:
 				final_rc = rc
 				break
+			elif rc == ESCExecution.RC_OK:
+				current_statement.is_completed = true
 
 	emit_signal("finished", self, current_statement, final_rc)
+	is_completed = true
 	return final_rc
 
 
