@@ -70,5 +70,6 @@ func reset():
 
 
 func _on_new_game_pressed():
-	yield(escoria.new_game(), "completed")
+	#yield(escoria.new_game(), "completed")
+	escoria.new_game()
 	escoria.main.current_scene.game.unpause_game()

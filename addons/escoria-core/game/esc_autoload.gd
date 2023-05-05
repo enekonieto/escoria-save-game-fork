@@ -18,7 +18,8 @@ signal resumed
 enum GAME_STATE {
 	DEFAULT,
 	DIALOG,
-	WAIT
+	WAIT,
+	LOADING
 }
 
 

@@ -202,6 +202,8 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				)
 	elif escoria.current_state == escoria.GAME_STATE.WAIT:
 		pass
+	elif escoria.current_state == escoria.GAME_STATE.LOADING:
+		pass
 
 
 # Sets the current state of action input.

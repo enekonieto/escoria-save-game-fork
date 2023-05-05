@@ -60,6 +60,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 		)
 		if not Engine.is_editor_hint() \
 				and (escoria.save_manager.is_loading_game or escoria.creating_new_game):
+			escoria.main.current_scene.enabled_automatic_transitions = false
 			escoria.room_manager.init_room(escoria.main.current_scene)
 		return
 
@@ -291,7 +292,8 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 	if room.global_id.empty():
 		room.global_id = room.name
-
+	
+	
 	# Manage player location at room start
 	if room.player != null \
 			and escoria.object_manager.get_start_location() != null \

@@ -15,7 +15,13 @@ const ESCORIA_CORE_PLUGIN_NAME: String = "escoria-core"
 onready var main = $main
 
 
+func _on_game_is_loading():
+	print("GAME IS LOADING")
 
+func _on_game_finished_loading():
+	print("GAME FINISHED LOADING")
+	
+	
 func _init():
 	escoria.inventory_manager = ESCInventoryManager.new()
 	escoria.action_manager = ESCActionManager.new()
@@ -26,6 +32,10 @@ func _init():
 	escoria.command_registry = ESCCommandRegistry.new()
 	escoria.resource_cache = ESCResourceCache.new()
 	escoria.save_manager = ESCSaveManager.new()
+	
+	escoria.save_manager.connect("game_is_loading", self, "_on_game_is_loading")
+	escoria.save_manager.connect("game_finished_loading", self, "_on_game_finished_loading")
+	
 	escoria.inputs_manager = ESCInputsManager.new()
 	escoria.settings_manager = ESCSettingsManager.new()
 

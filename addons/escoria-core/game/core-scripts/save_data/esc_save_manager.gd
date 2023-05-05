@@ -2,6 +2,9 @@
 class_name ESCSaveManager
 
 
+signal game_is_loading
+signal game_finished_loading
+
 # Template for settings filename
 const SETTINGS_TEMPLATE: String = "settings.tres"
 
@@ -228,12 +231,15 @@ func load_game(id: int):
 			"Save file %s doesn't exist." % save_file_path
 		)
 		return
+	
+	emit_signal("game_is_loading")
 
 	escoria.logger.info(
 		self,
 		"Loading savegame %s." % str(id)
 	)
 	is_loading_game = true
+	escoria.current_state == escoria.GAME_STATE.LOADING
 
 	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
 	
@@ -438,7 +444,6 @@ func load_game(id: int):
 						]
 					)
 				)
-	
 
 	## TRANSITION
 	load_statements.append(
@@ -458,6 +463,8 @@ func load_game(id: int):
 	
 	# Prepare for loading.
 	escoria.globals_manager.clear()
+	escoria.action_manager.clear_current_action()
+	escoria.action_manager.clear_current_tool()
 	
 	# Resume ongoing event, if there was one
 	if save_game.events.has("running_event_data") and not save_game.events.running_event_data.empty():

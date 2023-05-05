@@ -75,6 +75,7 @@ func set_scene(p_scene: Node) -> void:
 	current_scene = p_scene
 
 
+
 # Only called by the room manager in the case where it hasn't executed a
 # coroutine prior to calling set_scene_finish().
 #

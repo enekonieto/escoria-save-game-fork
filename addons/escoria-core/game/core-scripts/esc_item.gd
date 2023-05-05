@@ -65,6 +65,9 @@ signal arrived(walk_context)
 # retrieval of such nodes to easily change their attributes at the same time.
 const GROUP_ITEM_CAN_COLLIDE = "item_can_collide"
 
+# Group for ESCItem's that are triggers
+const GROUP_ITEM_TRIGGERS = "item_triggers"
+
 
 # The global ID of this item
 export(String) var global_id
@@ -193,6 +196,8 @@ func _ready():
 	# We add ourselves to this group so we can easily get a reference to all
 	# items in a scene tree.
 	add_to_group(GROUP_ITEM_CAN_COLLIDE)
+	if is_trigger:
+		add_to_group(GROUP_ITEM_TRIGGERS)
 
 	validate_animations(animations)
 	validate_exported_parameters()
@@ -293,15 +298,8 @@ func _ready():
 					escoria.inputs_manager,
 					"_on_mouse_right_clicked_item"
 				)
-		else:
-			if not self.is_connected("area_entered", self, "element_entered"):
-				connect("area_entered", self, "element_entered")
-			if not self.is_connected("area_exited", self, "element_exited"):
-				connect("area_exited", self, "element_exited")
-			if not self.is_connected("body_entered", self, "element_entered"):
-				connect("body_entered", self, "element_entered")
-			if not self.is_connected("body_exited", self, "element_exited"):
-				connect("body_exited", self, "element_exited")
+		else: # Item is a trigger
+			connect_trigger_events()
 
 		# If object can be in the inventory, set default_action_inventory to same as
 		# default_action, if default_action_inventory is not set
@@ -313,6 +311,17 @@ func _ready():
 			_movable.last_scale = scale
 			_movable.update_terrain()
 
+func connect_trigger_events():
+	if not is_trigger:
+		return
+	if not self.is_connected("area_entered", self, "element_entered"):
+		connect("area_entered", self, "element_entered")
+	if not self.is_connected("area_exited", self, "element_exited"):
+		connect("area_exited", self, "element_exited")
+	if not self.is_connected("body_entered", self, "element_entered"):
+		connect("body_entered", self, "element_entered")
+	if not self.is_connected("body_exited", self, "element_exited"):
+		connect("body_exited", self, "element_exited")
 
 # Validates the various exported parameters so we get immediate crash.
 func validate_exported_parameters() -> void:
@@ -327,6 +336,19 @@ func validate_exported_parameters() -> void:
 				)
 
 
+func disconnect_trigger_events():
+	if not is_trigger:
+		return
+	if self.is_connected("area_entered", self, "element_entered"):
+		disconnect("area_entered", self, "element_entered")
+	if self.is_connected("area_exited", self, "element_exited"):
+		disconnect("area_exited", self, "element_exited")
+	if self.is_connected("body_entered", self, "element_entered"):
+		disconnect("body_entered", self, "element_entered")
+	if self.is_connected("body_exited", self, "element_exited"):
+		disconnect("body_exited", self, "element_exited")
+
+	
 # Mouse exited happens on any item that mouse cursor exited, even those UNDER
 # the top level of overlapping stack.
 func _on_mouse_exited():
