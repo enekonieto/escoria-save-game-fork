@@ -21,7 +21,7 @@ class_name SchedEventCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
-		[[TYPE_REAL,TYPE_INT], TYPE_STRING, TYPE_STRING],
+		[[TYPE_REAL, TYPE_INT], TYPE_STRING, TYPE_STRING],
 		[null, null, null]
 	)
 

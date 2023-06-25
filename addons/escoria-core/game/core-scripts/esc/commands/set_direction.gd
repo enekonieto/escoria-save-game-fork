@@ -2,14 +2,14 @@
 #
 # Turns a movable `ESCItem` or `ESCPlayer` to face a given target direction id
 # (between 0 and 3 for a 4-directional character, or between 0 and 7 for an
-# 8-directional character.
+# 8-directional character).
 #
 # **Parameters**
 #
 # - *object*: Global ID of the object to turn
 # - *target_direction_id*: id of the direction as defined in the player animations
-# - *wait*: Number of seconds to wait for while playing each animation occurring
-#   between the current angle of `object` and the target angle. A value of
+# - *wait*: Number of seconds to wait while playing each animation occurring
+#   between the current direction of `object` and the target direction. A value of
 #   `0` will complete the turn immediately (default: `0`)
 #
 # @ESC

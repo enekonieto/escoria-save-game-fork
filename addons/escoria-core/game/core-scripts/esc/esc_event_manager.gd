@@ -432,7 +432,7 @@ func _on_event_finished(
 			escoria.save_manager.is_loading_game = false
 			escoria.save_manager.emit_signal("game_finished_loading")
 			escoria.current_state == escoria.GAME_STATE.DEFAULT
-		if finished_event.name == EVENT_NEW_GAME:
+		elif finished_event.name == EVENT_NEW_GAME:
 			escoria.creating_new_game = false
 	else:
 		emit_signal(

@@ -493,7 +493,7 @@ func _is_current_room(container: ESCRoomObjects) -> bool:
 #
 # - container: The entry in the object manager array being checked.
 # - room_key: The key representing the desired room in the object manager array.
-# **Returns** True iff container represents the the object manager entry specified
+# **Returns** True iff container represents the object manager entry specified
 # by room_key.
 func _compare_container_to_key(container: ESCRoomContainer, room_key: ESCRoomObjectsKey) -> bool:
 	return container.room_global_id == room_key.room_global_id

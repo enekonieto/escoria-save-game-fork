@@ -239,7 +239,7 @@ func load_game(id: int):
 		"Loading savegame %s." % str(id)
 	)
 	is_loading_game = true
-	escoria.current_state == escoria.GAME_STATE.LOADING
+	escoria.current_state = escoria.GAME_STATE.LOADING
 
 	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
 	
