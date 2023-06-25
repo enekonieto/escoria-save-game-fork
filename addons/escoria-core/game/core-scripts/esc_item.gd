@@ -312,8 +312,7 @@ func _ready():
 			_movable.update_terrain()
 
 func connect_trigger_events():
-	if not is_trigger:
-		return
+	assert(is_trigger)
 	if not self.is_connected("area_entered", self, "element_entered"):
 		connect("area_entered", self, "element_entered")
 	if not self.is_connected("area_exited", self, "element_exited"):
@@ -337,8 +336,7 @@ func validate_exported_parameters() -> void:
 
 
 func disconnect_trigger_events():
-	if not is_trigger:
-		return
+	assert(is_trigger)
 	if self.is_connected("area_entered", self, "element_entered"):
 		disconnect("area_entered", self, "element_entered")
 	if self.is_connected("area_exited", self, "element_exited"):

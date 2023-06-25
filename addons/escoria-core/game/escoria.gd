@@ -16,10 +16,11 @@ onready var main = $main
 
 
 func _on_game_is_loading():
-	print("GAME IS LOADING")
+	escoria.logger.info(self, "GAME IS LOADING")
 
 func _on_game_finished_loading():
-	print("GAME FINISHED LOADING")
+	escoria.logger.info(self, "GAME FINISHED LOADING")
+
 	
 	
 func _init():
