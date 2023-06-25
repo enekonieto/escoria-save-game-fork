@@ -428,10 +428,13 @@ func _on_event_finished(
 			return_code,
 			event.name
 		)
-		if finished_event.name == EVENT_LOAD:
+		if finished_event.name == EVENT_TRANSITION_IN \
+				and escoria.current_state == escoria.GAME_STATE.LOADING:
 			escoria.save_manager.is_loading_game = false
 			escoria.save_manager.emit_signal("game_finished_loading")
 			escoria.current_state = escoria.GAME_STATE.DEFAULT
+			escoria.main.current_scene.get_tree().call_group(
+				escoria.GROUP_ITEM_TRIGGERS, "connect_trigger_events")
 		elif finished_event.name == EVENT_NEW_GAME:
 			escoria.creating_new_game = false
 	else:

@@ -253,7 +253,7 @@ func _is_same_scene(scene_1: Node, scene_2: Node) -> bool:
 # Disable collisions in the previous scene so if we have two scenes in the same
 # game tree, collisions won't result.
 func _disable_collisions() -> void:
-	var items_to_disable = previous_scene.get_tree().get_nodes_in_group(ESCItem.GROUP_ITEM_CAN_COLLIDE)
+	var items_to_disable = previous_scene.get_tree().get_nodes_in_group(escoria.GROUP_ITEM_CAN_COLLIDE)
 
 	for item in items_to_disable:
 		if is_instance_valid(item.collision):

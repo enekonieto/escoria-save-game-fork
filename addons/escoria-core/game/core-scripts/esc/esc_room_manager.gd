@@ -402,7 +402,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 		script_transition_in.events[escoria.event_manager.EVENT_TRANSITION_IN]
 	)
 
-	if not escoria.save_manager.is_loading_game:
+	if not escoria.current_state == escoria.GAME_STATE.LOADING:
 		var ready_event_added: bool = false
 		# Run the ready event, if there is one.
 		ready_event_added = _run_script_event(escoria.event_manager.EVENT_READY, room)

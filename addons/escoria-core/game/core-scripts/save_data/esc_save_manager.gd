@@ -232,6 +232,11 @@ func load_game(id: int):
 		)
 		return
 	
+	# Disconnect all trigger areas in the current room so that they don't
+	# trigger after room is loaded (eg: when player was in a trigger area, 
+	# trigger_out won't fire after loading the game)
+	escoria.main.current_scene.get_tree().call_group(escoria.GROUP_ITEM_TRIGGERS, "disconnect_trigger_events")
+	
 	emit_signal("game_is_loading")
 
 	escoria.logger.info(
@@ -250,7 +255,6 @@ func load_game(id: int):
 	var escoria_version = plugin_config.get_value("plugin", "version")
 
 	# Migrate savegame through escoria versions
-
 	if escoria_version != save_game.escoria_version:
 		var migration_manager: ESCMigrationManager = ESCMigrationManager.new()
 		save_game = migration_manager.migrate(

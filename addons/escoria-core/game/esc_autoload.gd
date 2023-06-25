@@ -36,6 +36,13 @@ const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/c
 # Logger class
 const Logger = preload("res://addons/escoria-core/game/esc_logger.gd")
 
+# Group for ESCItem's that can be collided with in a scene. Used for quick
+# retrieval of such nodes to easily change their attributes at the same time.
+const GROUP_ITEM_CAN_COLLIDE = "item_can_collide"
+
+# Group for ESCItem's that are triggers
+const GROUP_ITEM_TRIGGERS = "item_triggers"
+
 
 # Logger instance
 var logger = Logger.ESCLoggerFile.new()
