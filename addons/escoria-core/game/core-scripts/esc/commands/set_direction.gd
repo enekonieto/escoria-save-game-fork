@@ -2,7 +2,23 @@
 #
 # Turns a movable `ESCItem` or `ESCPlayer` to face a given target direction id
 # (between 0 and 3 for a 4-directional character, or between 0 and 7 for an
-# 8-directional character).
+# 8-directional character). 
+# 
+# 4-directional :
+# 0 : UP / NORTH
+# 1 : RIGHT / EAST
+# 2 : DOWN / SOUTH
+# 3 : LEFT / WEST
+#
+# 8-directional :
+# 0 : UP / NORTH
+# 1 : UP-RIGHT / NORTH-EAST
+# 2 : RIGHT / EAST
+# 3 : DOWN-RIGHT / SOUTH-EAST
+# 4 : DOWN / SOUTH
+# 5 : DOWN-LEFT / SOUTH-WEST
+# 6 : LEFT / WEST
+# 7 : TOP-LEFT / NORTH-WEST
 #
 # **Parameters**
 #
