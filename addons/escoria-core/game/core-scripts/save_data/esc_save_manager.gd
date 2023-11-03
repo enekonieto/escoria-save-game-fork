@@ -438,16 +438,8 @@ func load_game(id: int):
 	## SCHEDULED EVENTS
 	if save_game.events.has("scheduled_events") \
 			and not save_game.events.scheduled_events.empty():
-		for sched_event in save_game.events.scheduled_events:
-			load_statements.append(ESCCommand.new("%s %s %s %s" \
-						% [
-							_sched_event.get_command_name(),
-							str(sched_event.timeout),
-							sched_event.object,
-							sched_event.event_name
-						]
-					)
-				)
+		escoria.event_manager.set_scheduled_events_from_savegame(
+				save_game.events.scheduled_events)
 
 	## TRANSITION
 	load_statements.append(
@@ -471,17 +463,12 @@ func load_game(id: int):
 	escoria.action_manager.clear_current_tool()
 	
 	# Resume ongoing event, if there was one
-	if save_game.events.has("running_event_data") and not save_game.events.running_event_data.empty():
-		var resuming_statements: Array = escoria.esc_compiler.load_esc_file(
-			save_game.events.running_event_data.source
-		).events[save_game.events.running_event_data.name].statements
-		load_statements.append_array( 
-			resuming_statements.slice(
-				save_game.events.running_event_data.id_statement_continue,
-				resuming_statements.size()
-			)
-		)
-	escoria.event_manager.queue_event(load_event)
+	if save_game.events.has("running_event") \
+			and not save_game.events.running_event.empty():
+		escoria.event_manager.set_running_event_from_savegame(
+				save_game.events.running_event)
 	
+	# This is the end: Queue the load game event as first in the queue
+	escoria.event_manager.queue_event(load_event, false, true)
 	escoria.logger.debug(self, "Load event queued.")
 

@@ -19,6 +19,14 @@ var parameters: Array = []
 # Conditions are combined using logical AND
 var conditions: Array = []
 
+func exported() -> Dictionary:
+	var export_dict: Dictionary = .exported()
+	export_dict.class = "ESCCommand"
+	export_dict.name = name
+	export_dict.parameters = parameters
+	export_dict.conditions = conditions
+	return export_dict
+
 
 # Create a command from a command string
 func _init(command_string):

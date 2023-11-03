@@ -51,6 +51,14 @@ var name: String
 # Flags set to this event
 var flags: int = 0
 
+# Returns a Dictionary containing statements data for serialization
+func exported() -> Dictionary:
+	var exported_dict: Dictionary = .exported()
+	exported_dict.class = "ESCEvent"
+	exported_dict.name = name
+	exported_dict.flags = flags
+	return exported_dict
+	
 
 # Create a new event from an event line
 func _init(event_string: String):
@@ -90,5 +98,7 @@ func run() -> int:
 		self,
 		"Event %s started." % name
 	)
+	if name == "resume":
+		bypass_conditions = true
 	return .run()
 
