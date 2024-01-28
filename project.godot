@@ -509,6 +509,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/repeat.gd"
 }, {
+"base": "ESCBaseCommand",
+"class": "SaveGameCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/save_game.gd"
+}, {
 "base": "Reference",
 "class": "SaveGamesSorter",
 "language": "GDScript",
@@ -770,6 +775,7 @@ _global_script_class_icons={
 "QueueResourceCommand": "",
 "RandGlobalCommand": "",
 "RepeatCommand": "",
+"SaveGameCommand": "",
 "SaveGamesSorter": "",
 "SayCommand": "",
 "SchedEventCommand": "",
@@ -845,13 +851,13 @@ main/force_quit=true
 main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
 main/text_lang="fr_FR"
 main/voice_lang="fr_FR"
-main/savegames_path="user://saves/"
+main/savegames_path="res://saves/"
 main/settings_path="user://"
 main/game_migration_path=""
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-debug/log_level="TRACE"
+debug/log_level="DEBUG"
 debug/log_file_path="user://"
 debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
 

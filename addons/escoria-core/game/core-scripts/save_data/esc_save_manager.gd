@@ -436,10 +436,10 @@ func load_game(id: int):
 				break
 		
 	## SCHEDULED EVENTS
-	if save_game.events.has("scheduled_events") \
-			and not save_game.events.scheduled_events.empty():
+	if save_game.events.has("sched_events") \
+			and not save_game.events.sched_events.empty():
 		escoria.event_manager.set_scheduled_events_from_savegame(
-				save_game.events.scheduled_events)
+				save_game.events.sched_events)
 
 	## TRANSITION
 	load_statements.append(

@@ -20,6 +20,16 @@ func _init(p_event: ESCEvent, p_timeout: float, p_object: String):
 	self.object = p_object
 
 
+# Returns a Dictionary containing statements data for serialization
+func exported() -> Dictionary:
+	var exported_dict: Dictionary = {}
+	exported_dict.class = "ESCScheduledEvent"
+	exported_dict.event = event.exported()
+	exported_dict.timeout = timeout
+	exported_dict.object = object
+	return exported_dict
+
+
 # Run the event
 #
 # **Returns** The execution code

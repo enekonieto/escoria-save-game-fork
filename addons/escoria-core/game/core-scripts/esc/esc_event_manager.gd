@@ -511,7 +511,9 @@ func _generate_statement_error_warning(statement: ESCStatement, event_name: Stri
 # - p_savegame: ESCSaveGame resource that holds all data of the save
 func save_game(p_savegame: ESCSaveGame) -> void:
 	# Running event
-	p_savegame.events.running_event = get_running_event(CHANNEL_FRONT).exported()
+	var running_event = get_running_event(CHANNEL_FRONT)
+	if running_event != null:
+		p_savegame.events.running_event = running_event.exported()
 	
 	# Scheduled events
 	var sched_events_array: Array = []
@@ -568,16 +570,18 @@ func set_running_event_from_savegame(p_running_event: Dictionary):
 	var statement_ids_arr: Array = [] 
 	_get_current_statement_ids_in_running_event(p_running_event, statement_ids_arr)
 	var script: ESCScript = escoria.esc_compiler.load_esc_file(p_running_event.source)
-	var running_event: ESCEvent = script.events[p_running_event.name] # usually "setup" or "ready"
+	var running_event: ESCEvent = script.events[p_running_event.original_name] # usually "setup" or "ready"
 	running_event.name = EVENT_RESUME
 	_set_current_statements_in_running_event(running_event, statement_ids_arr)
 	queue_event(running_event)
 
 
-#  TODO: To be implemented
-# Sets the scheduled events from a Dictionary (loaded from a savegame)
+# Sets the scheduled events from an array (loaded from a savegame)
 #
 # #### Parameters
-# - p_scheduled_events: The Dictionary containing the scheduled event data
-func set_scheduled_events_from_savegame(p_scheduled_events: Dictionary):
-	escoria.logger.error(self, "Not implemented")
+# - p_scheduled_events: The array containing the scheduled event data
+func set_scheduled_events_from_savegame(p_scheduled_events: Array):
+	for sched_ev in p_scheduled_events:
+		var script: ESCScript = escoria.esc_compiler.load_esc_file(sched_ev.event.source)
+		var ev: ESCEvent = script.events[sched_ev.event.original_name] 
+		escoria.event_manager.schedule_event(ev, sched_ev.timeout, sched_ev.object)
