@@ -235,7 +235,8 @@ func load_game(id: int):
 	# Disconnect all trigger areas in the current room so that they don't
 	# trigger after room is loaded (eg: when player was in a trigger area, 
 	# trigger_out won't fire after loading the game)
-	escoria.main.current_scene.get_tree().call_group(escoria.GROUP_ITEM_TRIGGERS, "disconnect_trigger_events")
+	if (escoria.main.current_scene != null):
+		escoria.main.current_scene.get_tree().call_group(escoria.GROUP_ITEM_TRIGGERS, "disconnect_trigger_events")
 	
 	emit_signal("game_is_loading")
 
@@ -334,7 +335,7 @@ func load_game(id: int):
 				)
 		else:
 			load_statements.append(
-				ESCCommand.new("%s %s %s true" %
+				ESCCommand.new("%s %s \"%s\" true" %
 					[
 						_set_global.get_command_name(),
 						k,
