@@ -335,11 +335,11 @@ func load_game(id: int):
 				)
 		else:
 			load_statements.append(
-				ESCCommand.new("%s %s \"%s\" true" %
+				ESCCommand.new("%s %s %s true" %
 					[
 						_set_global.get_command_name(),
 						k,
-						global_value
+						"\"%s\"" % [global_value] if (global_value is String) else global_value # If global_value is a string ensure it is treated as such
 					]
 				)
 			)
@@ -472,4 +472,3 @@ func load_game(id: int):
 	# This is the end: Queue the load game event as first in the queue
 	escoria.event_manager.queue_event(load_event, false, true)
 	escoria.logger.debug(self, "Load event queued.")
-
