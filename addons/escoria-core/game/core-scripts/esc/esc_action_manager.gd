@@ -271,7 +271,7 @@ func _get_event_to_queue(
 
 	escoria.logger.info(
 		self,
-		"Checking if action '%s' on '%s' is valid..." % [action, target]
+		"Checking if action '%s' on '%s' is valid..." % [action, target.global_id if target is ESCObject else target]
 	)
 
 	var event_to_return: ESCEvent = null
@@ -361,6 +361,10 @@ func _get_event_to_queue(
 				)
 	else:
 		if target.events.has(action):
+			# Reset the event if it was finished.
+			if target.events[action].is_completed:
+				target.events[action].is_completed = false
+				target.events[action].from_statement_id = 0
 			event_to_return = target.events[action]
 		elif escoria.action_default_script \
 			and escoria.action_default_script.events.has(action):
