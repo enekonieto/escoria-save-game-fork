@@ -108,6 +108,11 @@ func _set_interactive(value: bool):
 # A dictionary containing the data to be saved for this object.
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {}
+
+	# Save custom_data from items
+	if self.node.has_method("get_custom_data"):
+		save_data["custom_data"] = self.node.get_custom_data()
+
 	save_data["active"] = self.active
 	save_data["interactive"] = self.interactive
 	save_data["state"] = self.state

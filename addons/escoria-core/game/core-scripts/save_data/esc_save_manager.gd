@@ -40,6 +40,7 @@ var _enable_terrain: EnableTerrainCommand
 var _set_active: SetActiveCommand
 var _set_active_if_exists: SetActiveIfExistsCommand
 var _set_interactive: SetInteractiveCommand
+var _set_item_custom_data: SetItemCustomDataCommand
 var _teleport_pos: TeleportPosCommand
 var _set_angle: SetAngleCommand
 var _set_direction: SetDirectionCommand
@@ -65,6 +66,7 @@ func _init():
 	_set_active = SetActiveCommand.new()
 	_set_active_if_exists = SetActiveIfExistsCommand.new()
 	_set_interactive = SetInteractiveCommand.new()
+	_set_item_custom_data = SetItemCustomDataCommand.new()
 	_teleport_pos = TeleportPosCommand.new()
 	_set_angle = SetAngleCommand.new()
 	_set_direction = SetDirectionCommand.new()
@@ -398,9 +400,25 @@ func load_game(id: int):
 				)
 			)
 
+		if save_game.objects[object_global_id].has("custom_data"):
+			var custom_data = save_game.objects[object_global_id]["custom_data"]
+			if custom_data.size() > 0:
+				escoria.logger.info(self, "saveItem %s size=%s" % [object_global_id, custom_data.size()])
+				escoria.logger.info(self, "saveItem %s" % [JSON.print(custom_data)])
+				load_statements.append(
+					ESCCommand.new(
+						"",
+						_set_item_custom_data.get_command_name(),
+						[
+							object_global_id,
+							custom_data
+						]
+					)
+				)
+
 		if object_global_id in [
 				escoria.object_manager.MUSIC,
-				escoria.object_manager.SOUND, 
+				escoria.object_manager.SOUND,
 				escoria.object_manager.SPEECH
 			]:
 			if save_game.objects[object_global_id]["state"] in [
