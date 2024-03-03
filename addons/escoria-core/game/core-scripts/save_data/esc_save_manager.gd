@@ -403,8 +403,6 @@ func load_game(id: int):
 		if save_game.objects[object_global_id].has("custom_data"):
 			var custom_data = save_game.objects[object_global_id]["custom_data"]
 			if custom_data.size() > 0:
-				escoria.logger.info(self, "saveItem %s size=%s" % [object_global_id, custom_data.size()])
-				escoria.logger.info(self, "saveItem %s" % [JSON.print(custom_data)])
 				load_statements.append(
 					ESCCommand.new(
 						"",
