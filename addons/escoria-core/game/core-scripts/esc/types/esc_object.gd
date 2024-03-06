@@ -128,4 +128,7 @@ func get_save_data() -> Dictionary:
 		save_data["state"] = self.node.get("state")
 		save_data["playback_position"] = self.node.get_playback_position()
 
+	if self.global_id == "_camera":
+		save_data["target"] = self.node.get("_follow_target").global_id
+
 	return save_data

@@ -35,6 +35,7 @@ var is_loading_game: bool
 var _add_inventory: InventoryAddCommand
 var _transition: TransitionCommand
 var _hide_menu: HideMenuCommand
+var _camera_set_target: CameraSetTargetCommand
 var _change_scene: ChangeSceneCommand
 var _enable_terrain: EnableTerrainCommand
 var _set_active: SetActiveCommand
@@ -61,6 +62,7 @@ func _init():
 	_add_inventory = InventoryAddCommand.new()
 	_transition = TransitionCommand.new()
 	_hide_menu = HideMenuCommand.new()
+	_camera_set_target = CameraSetTargetCommand.new()
 	_change_scene = ChangeSceneCommand.new()
 	_enable_terrain = EnableTerrainCommand.new()
 	_set_active = SetActiveCommand.new()
@@ -347,6 +349,8 @@ func load_game(id: int):
 			)
 
 	## OBJECTS
+	var camera_target_to_follow
+	
 	for object_global_id in save_game.objects.keys():
 		if save_game.objects[object_global_id].has("active"):
 			load_statements.append(ESCCommand.new("%s %s %s" \
@@ -438,6 +442,10 @@ func load_game(id: int):
 						save_game.objects[object_global_id]["playback_position"]
 					])
 				)
+		
+		if object_global_id in [escoria.object_manager.CAMERA]:
+			camera_target_to_follow = save_game.objects[object_global_id]["target"]
+			
 
 	## TERRAIN NAVPOLYS
 	for room_name in save_game.terrain_navpolys.keys():
@@ -469,6 +477,16 @@ func load_game(id: int):
 			)]
 		)
 	)
+	
+	# FOLLOW TARGET
+	load_statements.append(
+#					ESCCommand.new("%s %s %s %s" % [
+			ESCCommand.new("%s %s %s" % [
+				_camera_set_target.get_command_name(),
+				0,
+				camera_target_to_follow
+			])
+		)
 
 	load_event.statements = load_statements
 	
