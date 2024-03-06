@@ -964,3 +964,11 @@ func is_moving() -> bool:
 
 func get_directions_quantity() -> int:
 	return animations.dir_angles.size()
+
+
+func get_custom_data() -> Dictionary:
+	return custom_data
+
+
+func set_custom_data(data: Dictionary) -> void:
+	custom_data = data if (data != null) else {}
