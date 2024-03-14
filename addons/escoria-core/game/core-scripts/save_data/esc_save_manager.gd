@@ -213,6 +213,7 @@ func _do_save_game(p_savename: String) -> ESCSaveGame:
 	save_game.date = OS.get_datetime()
 
 	escoria.globals_manager.save_game(save_game)
+	escoria.inventory_manager.save_game(save_game)
 	escoria.object_manager.save_game(save_game)
 	escoria.main.save_game(save_game)
 	escoria.event_manager.save_game(save_game)
@@ -290,8 +291,8 @@ func load_game(id: int):
 
 	escoria.event_manager.interrupt()
 
-	var load_event = ESCEvent.new("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_LOAD])
-	var load_statements = []
+	var load_event: ESCEvent = ESCEvent.new("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_LOAD])
+	var load_statements: Array = []
 
 	load_statements.append(
 		ESCCommand.new(
@@ -327,17 +328,7 @@ func load_game(id: int):
 		if global_value is String and global_value.empty():
 			global_value = "''"
 		
-		if k.begins_with("i/"):
-			if global_value:
-				load_statements.append(
-					ESCCommand.new("%s %s" %
-						[
-							_add_inventory.get_command_name(),
-							k.trim_prefix("i/")
-						]
-					)
-				)
-		else:
+		if not k.begins_with("i/"):
 			load_statements.append(
 				ESCCommand.new("%s %s %s true" %
 					[
@@ -347,7 +338,18 @@ func load_game(id: int):
 					]
 				)
 			)
-
+	
+	# INVENTORY
+	for item_name in save_game.inventory:
+		load_statements.append(
+			ESCCommand.new("%s %s" %
+				[
+					_add_inventory.get_command_name(),
+					item_name
+				]
+			)
+		)
+		
 	## OBJECTS
 	var camera_target_to_follow
 	

@@ -25,6 +25,9 @@ export var main: Dictionary = {}
 # Escoria Global variables exported from ESCGlobalsManager
 export var globals: Dictionary = {}
 
+# Inventory items
+export var inventory: Array = []
+
 # Escoria objects exported from ESCObjectsManager
 export var objects: Dictionary = {}
 

@@ -152,4 +152,6 @@ func replace_globals(string: String) -> String:
 func save_game(p_savegame: ESCSaveGame) -> void:
 	p_savegame.globals = {}
 	for g in _globals:
-		p_savegame.globals[g] = _globals[g]
+		if not g.begins_with("i/"):
+			p_savegame.globals[g] = _globals[g]
+
