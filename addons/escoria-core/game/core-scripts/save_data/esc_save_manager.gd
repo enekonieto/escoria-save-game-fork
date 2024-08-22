@@ -355,7 +355,7 @@ func load_game(id: int):
 	
 	for room_id in save_game.objects.keys():
 		
-		var room_objects: Array = save_game.objects[room_id].keys()
+		var room_objects: Dictionary = save_game.objects[room_id]
 		
 		if room_id in ESCObjectManager.RESERVED_OBJECTS:
 			
