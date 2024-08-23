@@ -448,8 +448,8 @@ func load_game(id: int):
 							)
 						)
 
-				if room_id in [escoria.object_manager.CAMERA]:
-					camera_target_to_follow = save_game.objects[room_id]["target"]	
+				if object_global_id == escoria.object_manager.CAMERA:
+					camera_target_to_follow = save_game.objects[room_id][escoria.object_manager.CAMERA]["target"]
 				
 
 	## TERRAIN NAVPOLYS
