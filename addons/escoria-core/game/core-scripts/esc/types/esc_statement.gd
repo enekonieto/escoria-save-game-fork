@@ -61,9 +61,9 @@ func run() -> int:
 	
 	var statement_id = 0
 	for statement in statements:
-		if statement_id < from_statement_id:
-			statement_id = statement_id + 1
-			continue
+		# if statement_id < from_statement_id:
+		# 	statement_id = statement_id + 1
+		# 	continue
 		
 		from_statement_id = statement_id
 		statement_id = statement_id + 1
